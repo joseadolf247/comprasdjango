@@ -30,12 +30,27 @@ def cart(request):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
     else:
-        items = []
-        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
-        cartItems = order['get_cart_items']
+        try:
+			cart = json.loads(request.COOKIES['cart'])
+		except:
+			cart = {}
+			print('CART:', cart)
 
-    context = {'items':items, 'order': order, 'cartItems': cartItems}
-    return render(request, 'store/checkout.html', context)
+		items = []
+		order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+		cartItems = order['get_cart_items']
+  
+        for i in cart:
+            cartItems += cart[i]["quantity"]
+            
+            product = Product.objects.get(id=i)
+            total = (product.price * cart[i]["quantity"])
+            
+            order['get_cart_total'] += total
+            order['get_cart_items'] += cart[i]["quantity"]
+
+	context = {'items':items, 'order':order, 'cartItems':cartItems}
+	return render(request, 'store/cart.html', context)
 
 def checkout(request):
     if request.user.is_authenticated:
