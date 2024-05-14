@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2tstt&gcsj3fry517rfijec5%5=37d4-v+&towhvhr11*k3^*y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','adolfordz247.pythonanywhere.com']
 SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 
 
